@@ -1,32 +1,23 @@
 import React from "react";
-import { View, Text, Button, StyleSheet, Alert } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 const DetailsScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Details Screen</Text>
-      <Button 
-        title="Go Back" 
-        onPress={() => {
-          if (navigation.canGoBack()) {
-            navigation.goBack();
-          } else {
-            Alert.alert("No screen to go back to!");
-          }
-        }} 
-      />
-    </View>
+    <TouchableOpacity style={styles.container} onPress={() => navigation.goBack()}>
+      <Image source={require("../images/lam-dunk.jpg")} style={styles.image} />
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
-  text: {
-    fontSize: 24,
+  image: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
   },
 });
 

@@ -1,23 +1,23 @@
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Home Screen</Text>
-      <Button title="Go to Details" onPress={() => navigation.navigate("Details")} />
-    </View>
+    <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("Details")}>
+      <Image source={require("../images/Ja_Morant.jpg")} style={styles.image} />
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
-  text: {
-    fontSize: 24,
+  image: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
   },
 });
 
