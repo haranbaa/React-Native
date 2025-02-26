@@ -13,7 +13,7 @@ const Navigation = () => {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: "Ja Morant" }} // Change title to player name
+          options={{ title: "kyrie irving" }} // Change title to player name
         />
         <Stack.Screen
           name="Details"

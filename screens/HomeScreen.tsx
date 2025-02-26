@@ -4,7 +4,7 @@ import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 const HomeScreen = ({ navigation }) => {
   return (
     <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("Details")}>
-      <Image source={require("../images/Ja_Morant.jpg")} style={styles.image} />
+      <Image source={require("../images/KyrieIrving.webp")} style={styles.image} />
     </TouchableOpacity>
   );
 };
