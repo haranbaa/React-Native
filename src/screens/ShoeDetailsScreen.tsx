@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-const HomeScreen = ({ navigation }) => {
+const ShoeDetailsScreen = ({ navigation }) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("Details")}>
-      <Image source={require("../images/KyrieIrving.webp")} style={styles.image} />
+    <TouchableOpacity style={styles.container} onPress={() => navigation.goBack()}>
+      <Image source={require("../../assets/lam-dunk.jpg")} style={styles.image} />
     </TouchableOpacity>
   );
 };
@@ -21,4 +21,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default ShoeDetailsScreen;
