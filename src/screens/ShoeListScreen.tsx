@@ -42,19 +42,17 @@ const ShoeListScreen = ({ navigation }) => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity 
-            style={styles.shoeItem} 
-            onPress={() => navigation.navigate("ShoeDetails", { shoe: item })}
-          >
-            {/* Shoe Image */}
-            <Image source={shoeImages[item.image]} style={styles.shoeImage} />
-
-            {/* Shoe Details */}
-            <View style={styles.shoeInfo}>
-              <Text style={styles.shoeName}>{item.name}</Text>
-              <Text style={styles.shoeBrand}>{item.brand}</Text>
-              <Text style={styles.shoePrice}>${item.price}</Text>
-            </View>
-          </TouchableOpacity>
+          style={styles.shoeItem} 
+          onPress={() => navigation.navigate("ShoeDetails", { shoe: item })}
+        >
+          <Image source={shoeImages[item.image]} style={styles.shoeImage} />
+          <View style={styles.shoeInfo}>
+            <Text style={styles.shoeName}>{item.name}</Text>
+            <Text style={styles.shoeBrand}>{item.brand}</Text>
+            <Text style={styles.shoePrice}>${item.price}</Text>
+          </View>
+        </TouchableOpacity>
+        
         )}
       />
     </View>
