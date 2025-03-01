@@ -1,35 +1,34 @@
 [
-    {
-      "id": 1,
-      "name": "Air Jordan 1",
-      "brand": "Nike",
-      "price": 150,
-      "image": "https://example.com/air-jordan-1.jpg",
-      "description": "Classic and timeless basketball sneakers from Jordan brand."
-    },
-    {
-      "id": 2,
-      "name": "Kobe 6 Protro",
-      "brand": "Nike",
-      "price": 180,
-      "image": "https://example.com/kobe-6-protro.jpg",
-      "description": "A tribute to the legendary Kobe Bryant."
-    },
-    {
-      "id": 3,
-      "name": "Kyrie 7",
-      "brand": "Nike",
-      "price": 140,
-      "image": "https://example.com/kyrie-7.jpg",
-      "description": "Designed for quick cuts and fast playstyle."
-    },
-    {
-      "id": 4,
-      "name": "Dame 8",
-      "brand": "Adidas",
-      "price": 120,
-      "image": "https://example.com/dame-8.jpg",
-      "description": "Built for explosive speed and agility."
-    }
-  ]
-  
+  {
+    "id": 1,
+    "name": "Air Jordan 1",
+    "brand": "Nike",
+    "price": 150,
+    "image": "air-jordan-1",
+    "description": "Classic and timeless basketball sneakers from Jordan brand."
+  },
+  {
+    "id": 2,
+    "name": "Kobe 6 Protro",
+    "brand": "Nike",
+    "price": 180,
+    "image": "kobe-6-protro",
+    "description": "A tribute to the legendary Kobe Bryant."
+  },
+  {
+    "id": 3,
+    "name": "Kyrie 7",
+    "brand": "Nike",
+    "price": 140,
+    "image": "kyrie-7",
+    "description": "Designed for quick cuts and fast playstyle."
+  },
+  {
+    "id": 4,
+    "name": "Dame 8",
+    "brand": "Adidas",
+    "price": 120,
+    "image": "dame-8",
+    "description": "Built for explosive speed and agility."
+  }
+]

@@ -2,6 +2,14 @@ import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import nbaShoes from "../data/nbaShoes.json";
 
+// Image Mapping for Local Assets (Since assets are OUTSIDE src/)
+const shoeImages = {
+  "air-jordan-1": require("../../assets/air-jordan-1.jpg"),
+  "kobe-6-protro": require("../../assets/kobe-6-protro.jpg"),
+  "kyrie-7": require("../../assets/kyrie-7.jpg"),
+  "dame-8": require("../../assets/dame-8.jpg"),
+};
+
 const ShoeListScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredShoes, setFilteredShoes] = useState(nbaShoes);
@@ -37,7 +45,10 @@ const ShoeListScreen = ({ navigation }) => {
             style={styles.shoeItem} 
             onPress={() => navigation.navigate("ShoeDetails", { shoe: item })}
           >
-            <Image source={{ uri: item.image }} style={styles.shoeImage} />
+            {/* Shoe Image */}
+            <Image source={shoeImages[item.image]} style={styles.shoeImage} />
+
+            {/* Shoe Details */}
             <View style={styles.shoeInfo}>
               <Text style={styles.shoeName}>{item.name}</Text>
               <Text style={styles.shoeBrand}>{item.brand}</Text>
@@ -66,22 +77,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   shoeItem: {
-    flexDirection: "row",
+    flexDirection: "row", // Align image & text side by side
     backgroundColor: "#fff",
     marginBottom: 10,
     borderRadius: 10,
     overflow: "hidden",
     padding: 10,
-    alignItems: "center",
+    alignItems: "center", // Ensure vertical alignment
   },
   shoeImage: {
     width: 80,
     height: 80,
     borderRadius: 10,
-    marginRight: 10,
+    marginRight: 15, // Add spacing between image and text
   },
   shoeInfo: {
-    flex: 1,
+    flex: 1, // Allow text to take remaining space
   },
   shoeName: {
     fontSize: 18,
