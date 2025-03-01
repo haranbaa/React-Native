@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Image, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 
 const shoeImages = {
   "air-jordan-1": require("../../assets/air-jordan-1.jpg"),
@@ -8,25 +8,24 @@ const shoeImages = {
   "dame-8": require("../../assets/dame-8.jpg"),
 };
 
-const ShoeDetailsScreen = ({ route, navigation }) => {
-  const { shoe } = route.params; // Get shoe details from navigation props
+const ShoeDetailsScreen = ({ route }) => {
+  const { shoe } = route.params || {};
+
+  const handlePayNow = () => {
+    Alert.alert("Payment Successful", `You have purchased ${shoe.name}!`, [{ text: "OK" }]);
+  };
 
   return (
     <View style={styles.container}>
-      {/* Shoe Image */}
       <Image source={shoeImages[shoe.image]} style={styles.image} />
-
-      {/* Shoe Information */}
       <View style={styles.detailsContainer}>
         <Text style={styles.name}>{shoe.name}</Text>
         <Text style={styles.brand}>{shoe.brand}</Text>
         <Text style={styles.price}>${shoe.price}</Text>
         <Text style={styles.description}>{shoe.description}</Text>
       </View>
-
-      {/* Go Back Button */}
-      <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
-        <Text style={styles.buttonText}>Go Back</Text>
+      <TouchableOpacity style={styles.button} onPress={handlePayNow}>
+        <Text style={styles.buttonText}>Pay Now</Text>
       </TouchableOpacity>
     </View>
   );
