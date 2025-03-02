@@ -17,7 +17,7 @@ const AppNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         {/* Home Screen */}
-        <Stack.Screen name="Home" options={{ title: "NBA Home" }}>
+        <Stack.Screen name="Home" options={{ title: "kyrie irving " }}>
           {(props) => <HomeScreen {...props} />}
         </Stack.Screen>
 
