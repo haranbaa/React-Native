@@ -2,12 +2,19 @@ import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import nbaShoes from "../data/nbaShoes.json";
 
-// Image Mapping for Local Assets
+// Load Images Properly
 const shoeImages = {
-  "air-jordan-1": require("../../assets/air-jordan-1.jpg"),
-  "kobe-6-protro": require("../../assets/kobe-6-protro.jpg"),
-  "kyrie-7": require("../../assets/kyrie-7.jpg"),
-  "dame-8": require("../../assets/dame-8.jpg"),
+  "air-jordan-1.jpg": require("../../assets/air-jordan-1.jpg"),
+  "kobe-6-protro.jpg": require("../../assets/kobe-6-protro.jpg"),
+  "kyrie-7.jpg": require("../../assets/kyrie-7.jpg"),
+  "dame-8.jpg": require("../../assets/dame-8.jpg"),
+  "lebron-21.jpg": require("../../assets/lebron-21.jpg"),
+  "nike-pg6.jpg": require("../../assets/nike-pg6.jpg"),
+  "under-armour-curry-10.jpg": require("../../assets/under-armour-curry-10.jpg"),
+  "adidas-trae-young.jpg": require("../../assets/adidas-trae-young.jpg"),
+  "nike-kd-16.jpg": require("../../assets/nike-kd-16.jpg"),
+  "jordan-why-not-zero.jpg": require("../../assets/jordan-why-not-zero.jpg"),
+  "adidas-vol-7.jpg": require("../../assets/adidas-vol-7.jpg"),
 };
 
 const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
@@ -15,62 +22,55 @@ const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
   const [filteredShoes, setFilteredShoes] = useState(nbaShoes);
 
   useEffect(() => {
-    if (searchQuery) {
-      setFilteredShoes(nbaShoes.filter((shoe) =>
-        shoe.name.toLowerCase().includes(searchQuery.toLowerCase())
-      ));
-    } else {
-      setFilteredShoes(nbaShoes);
-    }
+    setFilteredShoes(
+      searchQuery
+        ? nbaShoes.filter((shoe) => shoe.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        : nbaShoes
+    );
   }, [searchQuery]);
+
+  const addToFavorites = (shoe) => {
+    if (!favorites.some((fav) => fav.id === shoe.id)) {
+      setFavorites([...favorites, shoe]);
+    }
+  };
 
   return (
     <View style={styles.container}>
-      {/* Favorites Button */}
-      <TouchableOpacity style={styles.favoritesButton} onPress={() => navigation.navigate("Favorites")}>
-        <Text style={styles.favoritesText}>View Favorites ({favorites.length})</Text>
+      {/* Professional Search Bar */}
+      <View style={styles.searchBarContainer}>
+        <TextInput
+          style={styles.searchBar}
+          placeholder="🔍 Search Shoes..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+      </View>
+
+      <TouchableOpacity style={styles.favoriteButton} onPress={() => navigation.navigate("Favorites")}>
+        <Text style={styles.favoriteButtonText}>View Favorites ({favorites.length})</Text>
       </TouchableOpacity>
 
-      {/* Search Bar */}
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Search Shoes..."
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-      />
-
-      {/* Shoe List */}
       <FlatList
         data={filteredShoes}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => {
-          const isFavorite = favorites.some((fav) => fav.id === item.id);
-
-          return (
-            <View style={styles.shoeItem}>
-              <TouchableOpacity onPress={() => navigation.navigate("ShoeDetails", { shoe: item })}>
-                <Image source={shoeImages[item.image]} style={styles.shoeImage} />
-              </TouchableOpacity>
-              <View style={styles.shoeInfo}>
-                <Text style={styles.shoeName}>{item.name}</Text>
-                <Text style={styles.shoeBrand}>{item.brand}</Text>
-                <Text style={styles.shoePrice}>${item.price}</Text>
-              </View>
-
-              {/* Add to Favorites Button (No Remove Here) */}
-              <TouchableOpacity
-                style={[styles.favoriteButton, isFavorite && styles.favoriteButtonActive]}
-                onPress={() => {
-                  if (!isFavorite) {
-                    setFavorites([...favorites, item]);
-                  }
-                }}
-              >
-                <Text style={styles.favoriteButtonText}>{isFavorite ? "✓ Added" : "Add"}</Text>
-              </TouchableOpacity>
+        contentContainerStyle={{ paddingBottom: 20 }}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.shoeItem}
+            onPress={() => navigation.navigate("ShoeDetails", { shoe: item })}
+          >
+            <Image source={shoeImages[item.image]} style={styles.shoeImage} />
+            <View style={styles.shoeInfo}>
+              <Text style={styles.shoeName}>{item.name}</Text>
+              <Text style={styles.shoeBrand}>{item.brand}</Text>
+              <Text style={styles.shoePrice}>${item.price}</Text>
             </View>
-          );
-        }}
+            <TouchableOpacity onPress={() => addToFavorites(item)} style={styles.addToFavorites}>
+              <Text style={styles.addToFavoritesText}>+ Favorite</Text>
+            </TouchableOpacity>
+          </TouchableOpacity>
+        )}
       />
     </View>
   );
@@ -78,18 +78,27 @@ const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 10, backgroundColor: "#f5f5f5" },
-  favoritesButton: { backgroundColor: "#222", padding: 12, borderRadius: 8, alignItems: "center", marginBottom: 15 },
-  favoritesText: { fontSize: 16, fontWeight: "bold", color: "#fff" },
-  searchBar: { height: 40, borderWidth: 1, borderColor: "#ddd", borderRadius: 8, paddingHorizontal: 10, marginBottom: 10, backgroundColor: "#fff" },
-  shoeItem: { flexDirection: "row", backgroundColor: "#fff", marginBottom: 10, borderRadius: 10, padding: 10, alignItems: "center", elevation: 2 },
-  shoeImage: { width: 80, height: 80, borderRadius: 10, marginRight: 10 },
+  searchBarContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "#ddd",
+  },
+  searchBar: { flex: 1, height: 40, fontSize: 16 },
+  favoriteButton: { padding: 10, backgroundColor: "#007AFF", borderRadius: 10, alignItems: "center", marginBottom: 10 },
+  favoriteButtonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
+  shoeItem: { flexDirection: "row", backgroundColor: "#fff", marginBottom: 10, borderRadius: 10, padding: 10, alignItems: "center" },
+  shoeImage: { width: 80, height: 80, borderRadius: 10, marginRight: 15 },
   shoeInfo: { flex: 1 },
   shoeName: { fontSize: 18, fontWeight: "bold" },
   shoeBrand: { fontSize: 14, color: "gray" },
   shoePrice: { fontSize: 16, color: "#007AFF" },
-  favoriteButton: { paddingVertical: 6, paddingHorizontal: 14, borderRadius: 8, backgroundColor: "#333" },
-  favoriteButtonActive: { backgroundColor: "#007AFF" },
-  favoriteButtonText: { color: "#fff", fontSize: 14, fontWeight: "bold" },
+  addToFavorites: { paddingVertical: 5, paddingHorizontal: 10, backgroundColor: "#FFA500", borderRadius: 10 },
+  addToFavoritesText: { color: "#fff", fontWeight: "bold" },
 });
 
 export default ShoeListScreen;

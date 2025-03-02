@@ -16,22 +16,27 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" options={{ title: "Kyrie Irving" }}>
-          {(props) => <HomeScreen {...props} basket={basket} setBasket={setBasket} favorites={favorites} setFavorites={setFavorites} />}
+        {/* Home Screen */}
+        <Stack.Screen name="Home" options={{ title: "NBA Home" }}>
+          {(props) => <HomeScreen {...props} />}
         </Stack.Screen>
 
+        {/* Shoe List */}
         <Stack.Screen name="ShoeList" options={{ title: "NBA Shoes" }}>
           {(props) => <ShoeListScreen {...props} basket={basket} setBasket={setBasket} favorites={favorites} setFavorites={setFavorites} />}
         </Stack.Screen>
 
+        {/* Shoe Details */}
         <Stack.Screen name="ShoeDetails" options={{ title: "Shoe Details" }}>
           {(props) => <ShoeDetailsScreen {...props} basket={basket} setBasket={setBasket} favorites={favorites} setFavorites={setFavorites} />}
         </Stack.Screen>
 
-        <Stack.Screen name="Favorites" options={{ title: "Favorite Shoes" }}>
+        {/* Favorites */}
+        <Stack.Screen name="Favorites" options={{ title: "Your Favorites" }}>
           {(props) => <FavoritesScreen {...props} basket={basket} setBasket={setBasket} favorites={favorites} setFavorites={setFavorites} />}
         </Stack.Screen>
 
+        {/* Basket */}
         <Stack.Screen name="Basket" options={{ title: "Your Basket" }}>
           {(props) => <BasketScreen {...props} basket={basket} setBasket={setBasket} />}
         </Stack.Screen>

@@ -2,10 +2,17 @@ import React from "react";
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 const shoeImages = {
-  "air-jordan-1": require("../../assets/air-jordan-1.jpg"),
-  "kobe-6-protro": require("../../assets/kobe-6-protro.jpg"),
-  "kyrie-7": require("../../assets/kyrie-7.jpg"),
-  "dame-8": require("../../assets/dame-8.jpg"),
+  "air-jordan-1.jpg": require("../../assets/air-jordan-1.jpg"),
+  "kobe-6-protro.jpg": require("../../assets/kobe-6-protro.jpg"),
+  "kyrie-7.jpg": require("../../assets/kyrie-7.jpg"),
+  "dame-8.jpg": require("../../assets/dame-8.jpg"),
+  "lebron-21.jpg": require("../../assets/lebron-21.jpg"),
+  "nike-pg6.jpg": require("../../assets/nike-pg6.jpg"),
+  "under-armour-curry-10.jpg": require("../../assets/under-armour-curry-10.jpg"),
+  "adidas-trae-young.jpg": require("../../assets/adidas-trae-young.jpg"),
+  "nike-kd-16.jpg": require("../../assets/nike-kd-16.jpg"),
+  "jordan-why-not-zero.jpg": require("../../assets/jordan-why-not-zero.jpg"),
+  "adidas-vol-7.jpg": require("../../assets/adidas-vol-7.jpg"),
 };
 
 const FavoritesScreen = ({ navigation, favorites, setFavorites }) => {
@@ -29,7 +36,7 @@ const FavoritesScreen = ({ navigation, favorites, setFavorites }) => {
                 <Text style={styles.shoePrice}>${item.price}</Text>
               </View>
 
-              {/* Remove from Favorites Button (Only Here) */}
+              {/* Remove from Favorites Button */}
               <TouchableOpacity
                 style={styles.removeButton}
                 onPress={() => setFavorites(favorites.filter((fav) => fav.id !== item.id))}
