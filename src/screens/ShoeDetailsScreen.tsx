@@ -24,8 +24,10 @@ const ShoeDetailsScreen = ({ route }) => {
         <Text style={styles.price}>${shoe.price}</Text>
         <Text style={styles.description}>{shoe.description}</Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={handlePayNow}>
-        <Text style={styles.buttonText}>Pay Now</Text>
+
+      {/* CTA Pay Button */}
+      <TouchableOpacity style={styles.payButton} onPress={handlePayNow}>
+        <Text style={styles.payButtonText}>Pay Now</Text>
       </TouchableOpacity>
     </View>
   );
@@ -35,17 +37,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "#fff",
+    paddingTop: 20,
   },
   image: {
-    width: "100%",
+    width: "90%",
     height: 300,
     resizeMode: "contain",
+    marginBottom: 20,
   },
   detailsContainer: {
     padding: 20,
     alignItems: "center",
+    width: "100%",
   },
   name: {
     fontSize: 24,
@@ -67,14 +71,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     color: "#555",
   },
-  button: {
+  payButton: {
     marginTop: 20,
     backgroundColor: "#007AFF",
     paddingVertical: 15,
-    paddingHorizontal: 30,
-    borderRadius: 10,
+    paddingHorizontal: 40,
+    borderRadius: 8,
+    alignItems: "center",
+    width: "80%",
   },
-  buttonText: {
+  payButtonText: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
