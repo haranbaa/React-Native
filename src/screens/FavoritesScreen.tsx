@@ -1,20 +1,6 @@
 import React from "react";
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-const shoeImages = {
-  "air-jordan-1.jpg": require("../../assets/air-jordan-1.jpg"),
-  "kobe-6-protro.jpg": require("../../assets/kobe-6-protro.jpg"),
-  "kyrie-7.jpg": require("../../assets/kyrie-7.jpg"),
-  "dame-8.jpg": require("../../assets/dame-8.jpg"),
-  "lebron-21.jpg": require("../../assets/lebron-21.jpg"),
-  "nike-pg6.jpg": require("../../assets/nike-pg6.jpg"),
-  "under-armour-curry-10.jpg": require("../../assets/under-armour-curry-10.jpg"),
-  "adidas-trae-young.jpg": require("../../assets/adidas-trae-young.jpg"),
-  "nike-kd-16.jpg": require("../../assets/nike-kd-16.jpg"),
-  "jordan-why-not-zero.jpg": require("../../assets/jordan-why-not-zero.jpg"),
-  "adidas-vol-7.jpg": require("../../assets/adidas-vol-7.jpg"),
-};
-
 const FavoritesScreen = ({ navigation, favorites, setFavorites }) => {
   return (
     <View style={styles.container}>
@@ -28,7 +14,7 @@ const FavoritesScreen = ({ navigation, favorites, setFavorites }) => {
           renderItem={({ item }) => (
             <View style={styles.shoeItem}>
               <TouchableOpacity onPress={() => navigation.navigate("ShoeDetails", { shoe: item })}>
-                <Image source={shoeImages[item.image]} style={styles.shoeImage} />
+                <Image source={{ uri: item.image }} style={styles.shoeImage} />
               </TouchableOpacity>
               <View style={styles.shoeInfo}>
                 <Text style={styles.shoeName}>{item.name}</Text>
