@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const os = require("os");
 
 const app = express();
 const port = 3000;
@@ -9,8 +10,20 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-// Debugging: Check if server is running
-console.log("Starting server...");
+// Get Local IP (for Android)
+const networkInterfaces = os.networkInterfaces();
+let localIP = "localhost"; // Default for iOS
+
+for (const iface of Object.values(networkInterfaces)) {
+  for (const details of iface) {
+    if (details.family === "IPv4" && !details.internal) {
+      localIP = details.address; // Use LAN IP for Android
+    }
+  }
+}
+
+// Debugging
+console.log(`Starting server on ${localIP}...`);
 
 // Load JSON data
 const shoes = require("./db.json");
@@ -24,7 +37,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/shoes", (req, res) => {
-  console.log("Received request for /shoes"); // Debugging log
+  console.log("Received request for /shoes");
   res.json(shoes);
 });
 
@@ -38,6 +51,8 @@ app.get("/shoes/:id", (req, res) => {
 });
 
 // Start Server
-app.listen(port, () => {
-  console.log(`✅ Server is running at http://localhost:${port}`);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`✅ Server is running at:`);
+  console.log(`🔹 Local:   http://localhost:${port}`);
+  console.log(`🔹 Network: http://${localIP}:${port}`);
 });
