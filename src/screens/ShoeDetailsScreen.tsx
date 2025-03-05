@@ -1,21 +1,6 @@
 import React from "react";
 import { View, Image, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 
-// Ensure all images are included
-const shoeImages = {
-  "air-jordan-1.jpg": require("../../assets/air-jordan-1.jpg"),
-  "kobe-6-protro.jpg": require("../../assets/kobe-6-protro.jpg"),
-  "kyrie-7.jpg": require("../../assets/kyrie-7.jpg"),
-  "dame-8.jpg": require("../../assets/dame-8.jpg"),
-  "lebron-21.jpg": require("../../assets/lebron-21.jpg"),
-  "nike-pg6.jpg": require("../../assets/nike-pg6.jpg"),
-  "under-armour-curry-10.jpg": require("../../assets/under-armour-curry-10.jpg"),
-  "adidas-trae-young.jpg": require("../../assets/adidas-trae-young.jpg"),
-  "nike-kd-16.jpg": require("../../assets/nike-kd-16.jpg"),
-  "jordan-why-not-zero.jpg": require("../../assets/jordan-why-not-zero.jpg"),
-  "adidas-vol-7.jpg": require("../../assets/adidas-vol-7.jpg"),
-};
-
 const ShoeDetailsScreen = ({ route }) => {
   const { shoe } = route.params || {};
 
@@ -25,7 +10,7 @@ const ShoeDetailsScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={shoeImages[shoe.image]} style={styles.image} />
+      <Image source={{ uri: shoe.image }} style={styles.image} />
       <View style={styles.detailsContainer}>
         <Text style={styles.name}>{shoe.name}</Text>
         <Text style={styles.brand}>{shoe.brand}</Text>
@@ -33,7 +18,6 @@ const ShoeDetailsScreen = ({ route }) => {
         <Text style={styles.description}>{shoe.description}</Text>
       </View>
 
-      {/* CTA Pay Button */}
       <TouchableOpacity style={styles.payButton} onPress={handlePayNow}>
         <Text style={styles.payButtonText}>Pay Now</Text>
       </TouchableOpacity>

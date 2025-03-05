@@ -1,76 +1,65 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, TextInput } from "react-native";
-import nbaShoes from "../data/nbaShoes.json";
-
-// Load Images Properly
-const shoeImages = {
-  "air-jordan-1.jpg": require("../../assets/air-jordan-1.jpg"),
-  "kobe-6-protro.jpg": require("../../assets/kobe-6-protro.jpg"),
-  "kyrie-7.jpg": require("../../assets/kyrie-7.jpg"),
-  "dame-8.jpg": require("../../assets/dame-8.jpg"),
-  "lebron-21.jpg": require("../../assets/lebron-21.jpg"),
-  "nike-pg6.jpg": require("../../assets/nike-pg6.jpg"),
-  "under-armour-curry-10.jpg": require("../../assets/under-armour-curry-10.jpg"),
-  "adidas-trae-young.jpg": require("../../assets/adidas-trae-young.jpg"),
-  "nike-kd-16.jpg": require("../../assets/nike-kd-16.jpg"),
-  "jordan-why-not-zero.jpg": require("../../assets/jordan-why-not-zero.jpg"),
-  "adidas-vol-7.jpg": require("../../assets/adidas-vol-7.jpg"),
-};
 
 const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredShoes, setFilteredShoes] = useState(nbaShoes);
+  const [shoes, setShoes] = useState([]);
 
+  // Fetch shoe data from API
   useEffect(() => {
-    setFilteredShoes(
-      searchQuery
-        ? nbaShoes.filter((shoe) => shoe.name.toLowerCase().includes(searchQuery.toLowerCase()))
-        : nbaShoes
-    );
-  }, [searchQuery]);
+    fetch("http://localhost:3000/shoes") // Make sure Express server is running
+      .then((response) => response.json())
+      .then((data) => setShoes(data))
+      .catch((error) => console.error("Error fetching shoes:", error));
+  }, []);
 
-  const addToFavorites = (shoe) => {
-    if (!favorites.some((fav) => fav.id === shoe.id)) {
-      setFavorites([...favorites, shoe]);
+  // Toggle favorite status
+  const toggleFavorite = (shoe) => {
+    if (favorites.some((fav) => fav.id === shoe.id)) {
+      setFavorites(favorites.filter((fav) => fav.id !== shoe.id)); // Remove from favorites
+    } else {
+      setFavorites([...favorites, shoe]); // Add to favorites
     }
   };
 
   return (
     <View style={styles.container}>
-      {/* Professional Search Bar */}
-      <View style={styles.searchBarContainer}>
-        <TextInput
-          style={styles.searchBar}
-          placeholder="🔍 Search Shoes..."
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-      </View>
+      {/* Search Bar */}
+      <TextInput
+        style={styles.searchBar}
+        placeholder="🔍 Search Shoes..."
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
 
       <TouchableOpacity style={styles.favoriteButton} onPress={() => navigation.navigate("Favorites")}>
         <Text style={styles.favoriteButtonText}>View Favorites ({favorites.length})</Text>
       </TouchableOpacity>
 
       <FlatList
-        data={filteredShoes}
+        data={shoes.filter((shoe) => shoe.name.toLowerCase().includes(searchQuery.toLowerCase()))}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{ paddingBottom: 20 }}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.shoeItem}
-            onPress={() => navigation.navigate("ShoeDetails", { shoe: item })}
-          >
-            <Image source={shoeImages[item.image]} style={styles.shoeImage} />
-            <View style={styles.shoeInfo}>
-              <Text style={styles.shoeName}>{item.name}</Text>
-              <Text style={styles.shoeBrand}>{item.brand}</Text>
-              <Text style={styles.shoePrice}>${item.price}</Text>
-            </View>
-            <TouchableOpacity onPress={() => addToFavorites(item)} style={styles.addToFavorites}>
-              <Text style={styles.addToFavoritesText}>+ Favorite</Text>
+        renderItem={({ item }) => {
+          const isFavorite = favorites.some((fav) => fav.id === item.id);
+
+          return (
+            <TouchableOpacity
+              style={styles.shoeItem}
+              onPress={() => navigation.navigate("ShoeDetails", { shoe: item })}
+            >
+              <Image source={{ uri: item.image }} style={styles.shoeImage} />
+              <View style={styles.shoeInfo}>
+                <Text style={styles.shoeName}>{item.name}</Text>
+                <Text style={styles.shoeBrand}>{item.brand}</Text>
+                <Text style={styles.shoePrice}>${item.price}</Text>
+              </View>
+              <TouchableOpacity onPress={() => toggleFavorite(item)} style={styles.addToFavorites}>
+                <Text style={styles.addToFavoritesText}>{isFavorite ? "Added" : "+ Favorite"}</Text>
+              </TouchableOpacity>
             </TouchableOpacity>
-          </TouchableOpacity>
-        )}
+          );
+        }}
       />
     </View>
   );
@@ -78,17 +67,7 @@ const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 10, backgroundColor: "#f5f5f5" },
-  searchBarContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    paddingHorizontal: 15,
-    borderRadius: 8,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: "#ddd",
-  },
-  searchBar: { flex: 1, height: 40, fontSize: 16 },
+  searchBar: { height: 40, fontSize: 16, backgroundColor: "#fff", borderRadius: 8, paddingHorizontal: 15, marginBottom: 10 },
   favoriteButton: { padding: 10, backgroundColor: "#007AFF", borderRadius: 10, alignItems: "center", marginBottom: 10 },
   favoriteButtonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
   shoeItem: { flexDirection: "row", backgroundColor: "#fff", marginBottom: 10, borderRadius: 10, padding: 10, alignItems: "center" },
@@ -97,7 +76,7 @@ const styles = StyleSheet.create({
   shoeName: { fontSize: 18, fontWeight: "bold" },
   shoeBrand: { fontSize: 14, color: "gray" },
   shoePrice: { fontSize: 16, color: "#007AFF" },
-  addToFavorites: { paddingVertical: 5, paddingHorizontal: 10, backgroundColor: "#FFA500", borderRadius: 10 },
+  addToFavorites: { paddingVertical: 5, paddingHorizontal: 10, borderRadius: 10, backgroundColor: "#FFA500" },
   addToFavoritesText: { color: "#fff", fontWeight: "bold" },
 });
 
