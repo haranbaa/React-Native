@@ -1,91 +1,90 @@
 [
-    {
-      "id": 1,
-      "name": "Air Jordan 1",
-      "brand": "Nike",
-      "price": 150,
-      "image": "http://YOUR_LOCAL_IP:3000/images/air-jordan-1.jpg",
-      "description": "Classic and timeless basketball sneakers from Jordan brand."
-    },
-    {
-      "id": 2,
-      "name": "Kobe 6 Protro",
-      "brand": "Nike",
-      "price": 180,
-      "image": "http://YOUR_LOCAL_IP:3000/images/kobe-6-protro.jpg",
-      "description": "A tribute to the legendary Kobe Bryant."
-    },
-    {
-      "id": 3,
-      "name": "Kyrie 7",
-      "brand": "Nike",
-      "price": 140,
-      "image": "http://YOUR_LOCAL_IP:3000/images/kyrie-7.jpg",
-      "description": "Designed for quick cuts and fast playstyle."
-    },
-    {
-      "id": 4,
-      "name": "Dame 8",
-      "brand": "Adidas",
-      "price": 120,
-      "image": "http://YOUR_LOCAL_IP:3000/images/dame-8.jpg",
-      "description": "Built for explosive speed and agility."
-    },
-    {
-      "id": 5,
-      "name": "Nike LeBron 21",
-      "brand": "Nike",
-      "price": 200,
-      "image": "http://YOUR_LOCAL_IP:3000/images/lebron-21.jpg",
-      "description": "Engineered for power and precision on the court."
-    },
-    {
-      "id": 6,
-      "name": "Nike PG 6",
-      "brand": "Nike",
-      "price": 130,
-      "image": "http://YOUR_LOCAL_IP:3000/images/nike-pg6.jpg",
-      "description": "Lightweight and responsive sneakers for elite play."
-    },
-    {
-      "id": 7,
-      "name": "Under Armour Curry 10",
-      "brand": "Under Armour",
-      "price": 160,
-      "image": "http://YOUR_LOCAL_IP:3000/images/under-armour-curry-10.jpg",
-      "description": "Built for quick movements and agility."
-    },
-    {
-      "id": 8,
-      "name": "Adidas Trae Young",
-      "brand": "Adidas",
-      "price": 140,
-      "image": "http://YOUR_LOCAL_IP:3000/images/adidas-trae-young.jpg",
-      "description": "Designed for Trae Young’s fast-paced style."
-    },
-    {
-      "id": 9,
-      "name": "Nike KD 16",
-      "brand": "Nike",
-      "price": 170,
-      "image": "http://YOUR_LOCAL_IP:3000/images/nike-kd-16.jpg",
-      "description": "Precision control and support for explosive play."
-    },
-    {
-      "id": 10,
-      "name": "Jordan Why Not Zero",
-      "brand": "Jordan",
-      "price": 150,
-      "image": "http://YOUR_LOCAL_IP:3000/images/jordan-why-not-zero.jpg",
-      "description": "Russell Westbrook’s signature shoe for dynamic play."
-    },
-    {
-      "id": 11,
-      "name": "Adidas Harden Vol. 7",
-      "brand": "Adidas",
-      "price": 160,
-      "image": "http://YOUR_LOCAL_IP:3000/images/adidas-vol-7.jpg",
-      "description": "James Harden’s signature shoes with exceptional grip."
-    }
-  ]
-  
+  {
+    "id": 1,
+    "name": "Air Jordan 1",
+    "brand": "Nike",
+    "price": 150,
+    "image": "http://192.168.0.132:3000/images/air-jordan-1.jpg",
+    "description": "Classic and timeless basketball sneakers from Jordan brand."
+  },
+  {
+    "id": 2,
+    "name": "Kobe 6 Protro",
+    "brand": "Nike",
+    "price": 180,
+    "image": "http://192.168.0.132:3000/images/kobe-6-protro.jpg",
+    "description": "A tribute to the legendary Kobe Bryant."
+  },
+  {
+    "id": 3,
+    "name": "Kyrie 7",
+    "brand": "Nike",
+    "price": 140,
+    "image": "http://192.168.0.132:3000/images/kyrie-7.jpg",
+    "description": "Designed for quick cuts and fast playstyle."
+  },
+  {
+    "id": 4,
+    "name": "Dame 8",
+    "brand": "Adidas",
+    "price": 120,
+    "image": "http://192.168.0.132:3000/images/dame-8.jpg",
+    "description": "Built for explosive speed and agility."
+  },
+  {
+    "id": 5,
+    "name": "Nike LeBron 21",
+    "brand": "Nike",
+    "price": 200,
+    "image": "http://192.168.0.132:3000/images/lebron-21.jpg",
+    "description": "Engineered for power and precision on the court."
+  },
+  {
+    "id": 6,
+    "name": "Nike PG 6",
+    "brand": "Nike",
+    "price": 130,
+    "image": "http://192.168.0.132:3000/images/nike-pg6.jpg",
+    "description": "Lightweight and responsive sneakers for elite play."
+  },
+  {
+    "id": 7,
+    "name": "Under Armour Curry 10",
+    "brand": "Under Armour",
+    "price": 160,
+    "image": "http://192.168.0.132:3000/images/under-armour-curry-10.jpg",
+    "description": "Built for quick movements and agility."
+  },
+  {
+    "id": 8,
+    "name": "Adidas Trae Young",
+    "brand": "Adidas",
+    "price": 140,
+    "image": "http://192.168.0.132:3000/images/adidas-trae-young.jpg",
+    "description": "Designed for Trae Young’s fast-paced style."
+  },
+  {
+    "id": 9,
+    "name": "Nike KD 16",
+    "brand": "Nike",
+    "price": 170,
+    "image": "http://192.168.0.132:3000/images/nike-kd-16.jpg",
+    "description": "Precision control and support for explosive play."
+  },
+  {
+    "id": 10,
+    "name": "Jordan Why Not Zero",
+    "brand": "Jordan",
+    "price": 150,
+    "image": "http://192.168.0.132:3000/images/jordan-why-not-zero.jpg",
+    "description": "Russell Westbrook’s signature shoe for dynamic play."
+  },
+  {
+    "id": 11,
+    "name": "Adidas Harden Vol. 7",
+    "brand": "Adidas",
+    "price": 160,
+    "image": "http://192.168.0.132:3000/images/adidas-vol-7.jpg",
+    "description": "James Harden’s signature shoes with exceptional grip."
+  }
+]
