@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, TextInput } from "react-native";
+import { 
+  View, Text, FlatList, Image, StyleSheet, TouchableOpacity, TextInput, Platform 
+} from "react-native";
+
+const API_URL = Platform.OS === "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
 
 const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -7,7 +11,7 @@ const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
 
   // Fetch shoe data from API
   useEffect(() => {
-    fetch("http://localhost:3000/shoes") // Make sure Express server is running
+    fetch(`${API_URL}/shoes`)
       .then((response) => response.json())
       .then((data) => setShoes(data))
       .catch((error) => console.error("Error fetching shoes:", error));
@@ -55,7 +59,9 @@ const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
                 <Text style={styles.shoePrice}>${item.price}</Text>
               </View>
               <TouchableOpacity onPress={() => toggleFavorite(item)} style={styles.addToFavorites}>
-                <Text style={styles.addToFavoritesText}>{isFavorite ? "Added" : "+ Favorite"}</Text>
+                <Text style={styles.addToFavoritesText}>
+                  {isFavorite ? "Added" : "+ Favorite"}
+                </Text>
               </TouchableOpacity>
             </TouchableOpacity>
           );
