@@ -20,6 +20,8 @@ const shoeImages = {
 const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredShoes, setFilteredShoes] = useState(nbaShoes);
+  //searchQuery tracks user input for searching shoes.
+ //filteredShoes contains the currently visible shoes (filtered dynamically).
 
   useEffect(() => {
     setFilteredShoes(
@@ -28,16 +30,25 @@ const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
         : nbaShoes
     );
   }, [searchQuery]);
+  //Whenever searchQuery changes, the shoe list updates dynamically.
+//Uses .toLowerCase() to make the search case-insensitive.
+// If searchQuery is empty, it resets to the full list of shoes
 
   const addToFavorites = (shoe) => {
     if (!favorites.some((fav) => fav.id === shoe.id)) {
       setFavorites([...favorites, shoe]);
     }
   };
+  //fav.id === shoe.id checks if the shoe is already in favorites.
+  // Checks if the shoe is already in favorites using .some().
+//If not in favorites, adds the shoe using setFavorites([...favorites, shoe])
+//below
+//Displays a TextInput field for searching.
+//Uses onChangeText={setSearchQuery} to update searchQuery state.
+// Triggers useEffect to filter results
 
   return (
     <View style={styles.container}>
-      {/* Professional Search Bar */}
       <View style={styles.searchBarContainer}>
         <TextInput
           style={styles.searchBar}
@@ -47,9 +58,14 @@ const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
         />
       </View>
 
+
+
+
       <TouchableOpacity style={styles.favoriteButton} onPress={() => navigation.navigate("Favorites")}>
         <Text style={styles.favoriteButtonText}>View Favorites ({favorites.length})</Text>
       </TouchableOpacity>
+      //Navigates to the FavoritesScreen when clicked.
+      //Displays the count of favorited items using {favorites.length}
 
       <FlatList
         data={filteredShoes}
@@ -71,6 +87,10 @@ const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
             </TouchableOpacity>
           </TouchableOpacity>
         )}
+        //Maps through filteredShoes and displays each shoe.
+       //Each shoe is clickable and navigates to ShoeDetailsScreen using navigation.navigate().
+       //Renders shoe image, name, brand, price.
+       //Includes a "+ Favorite" button that calls addToFavorites(item)
       />
     </View>
   );
