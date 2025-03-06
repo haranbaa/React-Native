@@ -18,7 +18,7 @@ const shoeImages = {
 };
 
 const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [filteredShoes, setFilteredShoes] = useState(nbaShoes);
   //searchQuery tracks user input for searching shoes.
  //filteredShoes contains the currently visible shoes (filtered dynamically).
@@ -64,8 +64,8 @@ const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
       <TouchableOpacity style={styles.favoriteButton} onPress={() => navigation.navigate("Favorites")}>
         <Text style={styles.favoriteButtonText}>View Favorites ({favorites.length})</Text>
       </TouchableOpacity>
-      //Navigates to the FavoritesScreen when clicked.
-      //Displays the count of favorited items using {favorites.length}
+      {/*Navigates to the FavoritesScreen when clicked */}
+      {/*Displays the count of favorited items using {favorites.length} */}
 
       <FlatList
         data={filteredShoes}
