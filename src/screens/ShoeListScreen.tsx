@@ -3,7 +3,7 @@ import {
   View, Text, FlatList, Image, StyleSheet, TouchableOpacity, TextInput, Platform 
 } from "react-native";
 
-const API_URL = Platform.OS === "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
+const API_URL = Platform.OS === "android" ? "http://10.0.2.2:3000" : "http://192.168.0.133:3000";
 
 const ShoeListScreen = ({ navigation, favorites, setFavorites }) => {
   const [searchQuery, setSearchQuery] = useState("");

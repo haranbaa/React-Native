@@ -9,7 +9,7 @@ const HomeScreen = ({ navigation }) => {
 
       {/* View NBA Shoes Button */}
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("ShoeList")}>
-        <Text style={styles.buttonText}>View NBA Shoes</Text>
+        <Text style={styles.buttonText}>View NBA Shoes </Text>
       </TouchableOpacity>
     </View>
   );
