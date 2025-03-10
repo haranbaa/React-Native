@@ -3,6 +3,7 @@ import {
   View, Text, FlatList, Image, StyleSheet, 
   TouchableOpacity, TextInput, Platform 
 } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const API_URL = Platform.OS === "android" ? "http://10.0.2.2:3000" : "http://192.168.0.127:3000";
 
@@ -29,9 +30,10 @@ const ShoeListScreen = ({ navigation, favorites = [], setFavorites }) => {
     <View style={styles.container}>
       {/* 🔍 Search Bar */}
       <View style={styles.searchContainer}>
+        <Ionicons name="search" size={20} color="#888" style={styles.searchIcon} />
         <TextInput
           style={styles.searchBar}
-          placeholder="🔍 Search Shoes..."
+          placeholder="Search Shoes..."
           value={searchQuery}
           onChangeText={setSearchQuery}
           placeholderTextColor="#888"
@@ -42,7 +44,7 @@ const ShoeListScreen = ({ navigation, favorites = [], setFavorites }) => {
       <FlatList
         data={shoes.filter((shoe) => shoe.name.toLowerCase().includes(searchQuery.toLowerCase()))}
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={{ paddingBottom: 80 }}
+        contentContainerStyle={{ paddingBottom: 20 }}
         renderItem={({ item }) => {
           const isFavorite = favorites.some((fav) => fav.id === item.id);
 
@@ -61,7 +63,7 @@ const ShoeListScreen = ({ navigation, favorites = [], setFavorites }) => {
                 onPress={() => toggleFavorite(item)} 
                 style={[styles.favoriteButton, isFavorite && styles.favoriteButtonActive]}
               >
-                <Text style={styles.favoriteButtonText}>{isFavorite ? "✔ Favorite" : "+ Favorite"}</Text>
+                <Ionicons name={isFavorite ? "heart" : "heart-outline"} size={20} color="#fff" />
               </TouchableOpacity>
             </TouchableOpacity>
           );
@@ -78,20 +80,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fff",
-    borderRadius: 10,
+    borderRadius: 8,
     paddingHorizontal: 15,
-    paddingVertical: 5,
     marginBottom: 10,
-    marginHorizontal: 10,
+    marginHorizontal: 15, // Fix for iOS
     borderWidth: 1,
     borderColor: "#ccc",
     elevation: 2,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
 
+  searchIcon: { marginRight: 10 },
   searchBar: { flex: 1, height: 40, fontSize: 16, color: "#333" },
 
   shoeItem: { 
@@ -116,15 +118,13 @@ const styles = StyleSheet.create({
   shoePrice: { fontSize: 16, color: "#007AFF", fontWeight: "bold" },
 
   favoriteButton: { 
-    paddingVertical: 5, 
-    paddingHorizontal: 10, 
-    borderRadius: 10, 
-    backgroundColor: "#FFA500",
+    padding: 8, 
+    borderRadius: 20, 
+    backgroundColor: "#FF3B30",
   },
 
-  favoriteButtonActive: { backgroundColor: "#FF3B30" },
+  favoriteButtonActive: { backgroundColor: "#007AFF" },
 
-  favoriteButtonText: { color: "#fff", fontWeight: "bold" },
 });
 
 export default ShoeListScreen;

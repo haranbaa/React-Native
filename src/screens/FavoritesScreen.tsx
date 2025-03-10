@@ -1,7 +1,12 @@
 import React from "react";
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const FavoritesScreen = ({ navigation, favorites, setFavorites }) => {
+  const removeFavorite = (shoeId) => {
+    setFavorites(favorites.filter((fav) => fav.id !== shoeId));
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Your Favorite Shoes</Text>
@@ -23,11 +28,8 @@ const FavoritesScreen = ({ navigation, favorites, setFavorites }) => {
               </View>
 
               {/* Remove from Favorites Button */}
-              <TouchableOpacity
-                style={styles.removeButton}
-                onPress={() => setFavorites(favorites.filter((fav) => fav.id !== item.id))}
-              >
-                <Text style={styles.removeButtonText}>Remove</Text>
+              <TouchableOpacity style={styles.removeButton} onPress={() => removeFavorite(item.id)}>
+                <Ionicons name="trash-outline" size={20} color="#fff" />
               </TouchableOpacity>
             </View>
           )}
@@ -47,8 +49,7 @@ const styles = StyleSheet.create({
   shoeName: { fontSize: 18, fontWeight: "bold" },
   shoeBrand: { fontSize: 14, color: "gray" },
   shoePrice: { fontSize: 16, color: "#007AFF" },
-  removeButton: { paddingVertical: 6, paddingHorizontal: 14, borderRadius: 8, backgroundColor: "#d9534f" },
-  removeButtonText: { color: "#fff", fontSize: 14, fontWeight: "bold" },
+  removeButton: { padding: 10, borderRadius: 20, backgroundColor: "#d9534f" },
 });
 
 export default FavoritesScreen;
