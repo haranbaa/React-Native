@@ -12,7 +12,7 @@ const ShoeDetailsScreen = ({ route, basket = [], setBasket }) => {
 
     if (!basket.some((item) => item.id === shoe.id)) {
       setBasket([...basket, shoe]);
-      Alert.alert("Payment Successful", `You have added ${shoe.name} to your basket!`, [{ text: "OK" }]);
+      Alert.alert("Added To Basket Successful", `You have added ${shoe.name} to your basket!`, [{ text: "OK" }]);
     } else {
       Alert.alert("Already in Basket", `${shoe.name} is already in your basket.`, [{ text: "OK" }]);
     }

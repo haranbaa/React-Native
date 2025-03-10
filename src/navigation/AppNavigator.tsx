@@ -16,12 +16,12 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 /** 
- * 🔹 Stack Navigator for Shoe List + Shoe Details (to keep ShoeDetails OUT of bottom navigation)
+ * 🔹 Stack Navigator for Shoe List + Shoe Details 
+ *    - Keeps ShoeDetails OUT of the bottom navigation.
  */
 const ShoeStackNavigator = ({ favorites, setFavorites, basket, setBasket }) => {
   return (
     <Stack.Navigator>
-      {/* Shoe List Screen */}
       <Stack.Screen 
         name="ShoeListMain" 
         options={{ headerShown: false }}
@@ -29,7 +29,6 @@ const ShoeStackNavigator = ({ favorites, setFavorites, basket, setBasket }) => {
         {(props) => <ShoeListScreen {...props} favorites={favorites} setFavorites={setFavorites} />}
       </Stack.Screen>
 
-      {/* Shoe Details Screen (NOT in bottom navigation) */}
       <Stack.Screen 
         name="ShoeDetails" 
         options={{ title: "Shoe Details" }}
@@ -41,10 +40,34 @@ const ShoeStackNavigator = ({ favorites, setFavorites, basket, setBasket }) => {
 };
 
 /** 
- * 🔹 Main App Navigator (Bottom Tab Navigation)
+ * 🔹 Stack Navigator for Favorites + Shoe Details
+ *    - Allows navigating from Favorites to Shoe Details.
+ */
+const FavoritesStackNavigator = ({ favorites, setFavorites, basket, setBasket }) => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="FavoritesMain" 
+        options={{ headerShown: false }}
+      >
+        {(props) => <FavoritesScreen {...props} favorites={favorites} setFavorites={setFavorites} basket={basket} setBasket={setBasket} />}
+      </Stack.Screen>
+
+      <Stack.Screen 
+        name="ShoeDetails" 
+        options={{ title: "Shoe Details" }}
+      >
+        {(props) => <ShoeDetailsScreen {...props} basket={basket} setBasket={setBasket} />}
+      </Stack.Screen>
+    </Stack.Navigator>
+  );
+};
+
+/** 
+ * 🔹 Main App Navigator (Bottom Tab Navigation) 
  */
 const AppNavigator = () => {
-  const [favorites, setFavorites] = useState([]); // ❤️ Favorites state
+  const [favorites, setFavorites] = useState([]); // ⭐️ Favorites state
   const [basket, setBasket] = useState([]); // 🛒 Basket state
 
   return (
@@ -80,17 +103,17 @@ const AppNavigator = () => {
           {(props) => <ShoeStackNavigator {...props} favorites={favorites} setFavorites={setFavorites} basket={basket} setBasket={setBasket} />}
         </Tab.Screen>
 
-        {/* ❤️ Favorites */}
+        {/* ⭐️ Favorites (Updated to use Star Icon) */}
         <Tab.Screen 
           name="Favorites" 
           options={{
-            tabBarBadge: favorites.length > 0 ? favorites.length : null, // Show favorite count
+            tabBarBadge: favorites.length > 0 ? favorites.length : null, // Show badge for favorite count
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="heart-outline" size={size} color={color} />
+              <Ionicons name="star" size={size} color={favorites.length > 0 ? "#FFD700" : color} /> // Gold when items exist
             ),
           }}
         >
-          {(props) => <FavoritesScreen {...props} favorites={favorites} setFavorites={setFavorites} basket={basket} setBasket={setBasket} />}
+          {(props) => <FavoritesStackNavigator {...props} favorites={favorites} setFavorites={setFavorites} basket={basket} setBasket={setBasket} />}
         </Tab.Screen>
 
         {/* 🛒 Basket */}

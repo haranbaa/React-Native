@@ -6,13 +6,12 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const FavoritesScreen = ({ navigation, favorites, setFavorites, basket, setBasket }) => {
-
-  // 🔥 Remove item from favorites
+  // ⭐️ Remove from Favorites
   const removeFavorite = (shoeId) => {
     setFavorites(favorites.filter((fav) => fav.id !== shoeId));
   };
 
-  // 🛒 Add item to basket
+  // 🛒 Add to Basket
   const addToBasket = (shoe) => {
     if (!basket.some((item) => item.id === shoe.id)) {
       setBasket([...basket, shoe]);
@@ -46,14 +45,14 @@ const FavoritesScreen = ({ navigation, favorites, setFavorites, basket, setBaske
                 <Text style={styles.shoePrice}>${item.price}</Text>
               </View>
 
-              {/* 🛒 Add to Basket Button */}
+              {/* 🛒 Add to Basket */}
               <TouchableOpacity style={styles.addToBasketButton} onPress={() => addToBasket(item)}>
-                <Ionicons name="cart-outline" size={20} color="#fff" />
+                <Ionicons name="cart-outline" size={22} color="#fff" />
               </TouchableOpacity>
 
-              {/* ❌ Remove from Favorites */}
+              {/* 🗑️ Remove from Favorites (Trash Icon) */}
               <TouchableOpacity style={styles.removeButton} onPress={() => removeFavorite(item.id)}>
-                <Ionicons name="trash-outline" size={20} color="#fff" />
+                <Ionicons name="trash-outline" size={22} color="#fff" />
               </TouchableOpacity>
             </View>
           )}
