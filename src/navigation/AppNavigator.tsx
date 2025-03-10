@@ -1,46 +1,53 @@
 import React, { useState } from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import Ionicons from "react-native-vector-icons/Ionicons";
+
 import HomeScreen from "../screens/HomeScreen";
 import ShoeListScreen from "../screens/ShoeListScreen";
 import ShoeDetailsScreen from "../screens/ShoeDetailsScreen";
 import BasketScreen from "../screens/BasketScreen";
-import FavoritesScreen from "../screens/FavoritesScreen"; 
+import FavoritesScreen from "../screens/FavoritesScreen";
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
-  const [basket, setBasket] = useState([]); 
-  const [favorites, setFavorites] = useState([]); 
+  const [favorites, setFavorites] = useState([]);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        {/* Home Screen */}
-        <Stack.Screen name="Home" options={{ title: "kyrie irving " }}>
-          {(props) => <HomeScreen {...props} />}
-        </Stack.Screen>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color, size }) => {
+            let iconName;
 
-        {/* Shoe List */}
-        <Stack.Screen name="ShoeList" options={{ title: "NBA Shoes" }}>
-          {(props) => <ShoeListScreen {...props} basket={basket} setBasket={setBasket} favorites={favorites} setFavorites={setFavorites} />}
-        </Stack.Screen>
+            if (route.name === "Home") {
+              iconName = "home-outline";
+            } else if (route.name === "Shoes") {
+              iconName = "basketball-outline";
+            } else if (route.name === "Favorites") {
+              iconName = "heart-outline";
+            } else if (route.name === "Cart") {
+              iconName = "cart-outline";
+            }
 
-        {/* Shoe Details */}
-        <Stack.Screen name="ShoeDetails" options={{ title: "Shoe Details" }}>
-          {(props) => <ShoeDetailsScreen {...props} basket={basket} setBasket={setBasket} favorites={favorites} setFavorites={setFavorites} />}
-        </Stack.Screen>
-
-        {/* Favorites */}
-        <Stack.Screen name="Favorites" options={{ title: "Your Favorites" }}>
-          {(props) => <FavoritesScreen {...props} basket={basket} setBasket={setBasket} favorites={favorites} setFavorites={setFavorites} />}
-        </Stack.Screen>
-
-        {/* Basket */}
-        <Stack.Screen name="Basket" options={{ title: "Your Basket" }}>
-          {(props) => <BasketScreen {...props} basket={basket} setBasket={setBasket} />}
-        </Stack.Screen>
-      </Stack.Navigator>
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: "#007AFF",
+          tabBarInactiveTintColor: "gray",
+          tabBarShowLabel: false,
+          headerShown: false,
+        })}
+      >
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Shoes">
+          {(props) => <ShoeListScreen {...props} favorites={favorites} setFavorites={setFavorites} />}
+        </Tab.Screen>
+        <Tab.Screen name="Favorites">
+          {(props) => <FavoritesScreen {...props} favorites={favorites} setFavorites={setFavorites} />}
+        </Tab.Screen>
+        <Tab.Screen name="Cart" component={BasketScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };
