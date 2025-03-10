@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, Alert } from "react-native";
 
-const BasketScreen = ({ navigation, basket, setBasket }) => {
+const BasketScreen = ({ basket = [], setBasket }) => {
   const handleRemoveFromBasket = (shoe) => {
     setBasket(basket.filter((item) => item.id !== shoe.id));
   };
@@ -17,12 +17,9 @@ const BasketScreen = ({ navigation, basket, setBasket }) => {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <View style={styles.shoeItem}>
-              {/* Shoe Image */}
-              <TouchableOpacity onPress={() => navigation.navigate("ShoeDetails", { shoe: item })}>
-                <Image source={{ uri: item.image }} style={styles.shoeImage} />
-              </TouchableOpacity>
+              {/* ❌ FIX: Prevent Navigation from Basket */}
+              <Image source={{ uri: item.image }} style={styles.shoeImage} />
 
-              {/* Shoe Details */}
               <View style={styles.shoeInfo}>
                 <Text style={styles.shoeName}>{item.name}</Text>
                 <Text style={styles.shoeBrand}>{item.brand}</Text>
@@ -30,10 +27,7 @@ const BasketScreen = ({ navigation, basket, setBasket }) => {
               </View>
 
               {/* Remove Button */}
-              <TouchableOpacity
-                style={styles.removeButton}
-                onPress={() => handleRemoveFromBasket(item)}
-              >
+              <TouchableOpacity style={styles.removeButton} onPress={() => handleRemoveFromBasket(item)}>
                 <Text style={styles.removeButtonText}>Remove</Text>
               </TouchableOpacity>
             </View>
@@ -58,50 +52,16 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 10, backgroundColor: "#f5f5f5" },
   header: { fontSize: 22, fontWeight: "bold", marginBottom: 10, textAlign: "center" },
   emptyText: { fontSize: 16, textAlign: "center", marginTop: 20, color: "gray" },
-
-  shoeItem: { 
-    flexDirection: "row", 
-    backgroundColor: "#fff", 
-    marginBottom: 10, 
-    borderRadius: 10, 
-    padding: 10, 
-    alignItems: "center", 
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 2,
-  },
-
+  shoeItem: { flexDirection: "row", backgroundColor: "#fff", marginBottom: 10, borderRadius: 10, padding: 10, alignItems: "center", elevation: 2 },
   shoeImage: { width: 80, height: 80, borderRadius: 10, marginRight: 10 },
-  
   shoeInfo: { flex: 1 },
   shoeName: { fontSize: 18, fontWeight: "bold" },
   shoeBrand: { fontSize: 14, color: "gray" },
   shoePrice: { fontSize: 16, color: "#007AFF" },
-
-  removeButton: { 
-    paddingVertical: 6, 
-    paddingHorizontal: 14, 
-    borderRadius: 8, 
-    backgroundColor: "#d9534f",
-  },
-
+  removeButton: { paddingVertical: 6, paddingHorizontal: 14, borderRadius: 8, backgroundColor: "#d9534f" },
   removeButtonText: { color: "#fff", fontSize: 14, fontWeight: "bold" },
-
-  checkoutButton: { 
-    backgroundColor: "#28a745", 
-    padding: 15, 
-    borderRadius: 8, 
-    alignItems: "center",
-    margin: 10,
-  },
-
-  checkoutButtonText: { 
-    color: "#fff", 
-    fontSize: 18, 
-    fontWeight: "bold",
-  },
+  checkoutButton: { backgroundColor: "#28a745", padding: 15, borderRadius: 8, alignItems: "center", margin: 10 },
+  checkoutButtonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
 });
 
 export default BasketScreen;

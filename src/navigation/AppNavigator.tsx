@@ -11,9 +11,13 @@ import FavoritesScreen from "../screens/FavoritesScreen";
 import BasketScreen from "../screens/BasketScreen";
 import ShoeDetailsScreen from "../screens/ShoeDetailsScreen";
 
+// Create Navigators
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+/** 
+ * 🔹 Stack Navigator for Shoe List + Shoe Details (to keep ShoeDetails OUT of bottom navigation)
+ */
 const ShoeStackNavigator = ({ favorites, setFavorites, basket, setBasket }) => {
   return (
     <Stack.Navigator>
@@ -36,9 +40,12 @@ const ShoeStackNavigator = ({ favorites, setFavorites, basket, setBasket }) => {
   );
 };
 
+/** 
+ * 🔹 Main App Navigator (Bottom Tab Navigation)
+ */
 const AppNavigator = () => {
-  const [favorites, setFavorites] = useState([]);
-  const [basket, setBasket] = useState([]);
+  const [favorites, setFavorites] = useState([]); // ❤️ Favorites state
+  const [basket, setBasket] = useState([]); // 🛒 Basket state
 
   return (
     <NavigationContainer>
@@ -77,20 +84,20 @@ const AppNavigator = () => {
         <Tab.Screen 
           name="Favorites" 
           options={{
-            tabBarBadge: favorites.length > 0 ? favorites.length : null, // Show badge for favorite count
+            tabBarBadge: favorites.length > 0 ? favorites.length : null, // Show favorite count
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="heart-outline" size={size} color={color} />
             ),
           }}
         >
-          {(props) => <FavoritesScreen {...props} favorites={favorites} setFavorites={setFavorites} />}
+          {(props) => <FavoritesScreen {...props} favorites={favorites} setFavorites={setFavorites} basket={basket} setBasket={setBasket} />}
         </Tab.Screen>
 
         {/* 🛒 Basket */}
         <Tab.Screen 
           name="Basket" 
           options={{
-            tabBarBadge: basket.length > 0 ? basket.length : null, // Show badge for basket count
+            tabBarBadge: basket.length > 0 ? basket.length : null, // Show basket count
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="cart-outline" size={size} color={color} />
             ),
