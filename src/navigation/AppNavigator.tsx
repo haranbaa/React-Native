@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+
+// Import Screens
 import HomeScreen from "../screens/HomeScreen";
 import ShoeListScreen from "../screens/ShoeListScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
@@ -9,9 +12,33 @@ import BasketScreen from "../screens/BasketScreen";
 import ShoeDetailsScreen from "../screens/ShoeDetailsScreen";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+const ShoeStackNavigator = ({ favorites, setFavorites, basket, setBasket }) => {
+  return (
+    <Stack.Navigator>
+      {/* Shoe List Screen */}
+      <Stack.Screen 
+        name="ShoeListMain" 
+        options={{ headerShown: false }}
+      >
+        {(props) => <ShoeListScreen {...props} favorites={favorites} setFavorites={setFavorites} />}
+      </Stack.Screen>
+
+      {/* Shoe Details Screen (NOT in bottom navigation) */}
+      <Stack.Screen 
+        name="ShoeDetails" 
+        options={{ title: "Shoe Details" }}
+      >
+        {(props) => <ShoeDetailsScreen {...props} basket={basket} setBasket={setBasket} />}
+      </Stack.Screen>
+    </Stack.Navigator>
+  );
+};
 
 const AppNavigator = () => {
   const [favorites, setFavorites] = useState([]);
+  const [basket, setBasket] = useState([]);
 
   return (
     <NavigationContainer>
@@ -23,6 +50,7 @@ const AppNavigator = () => {
           tabBarInactiveTintColor: "#888",
         }}
       >
+        {/* 🏠 Home */}
         <Tab.Screen 
           name="Home" 
           component={HomeScreen} 
@@ -33,6 +61,7 @@ const AppNavigator = () => {
           }} 
         />
 
+        {/* 👟 Shoe List (Stack Navigator) */}
         <Tab.Screen 
           name="ShoeList" 
           options={{
@@ -41,13 +70,14 @@ const AppNavigator = () => {
             ),
           }}
         >
-          {(props) => <ShoeListScreen {...props} favorites={favorites} setFavorites={setFavorites} />}
+          {(props) => <ShoeStackNavigator {...props} favorites={favorites} setFavorites={setFavorites} basket={basket} setBasket={setBasket} />}
         </Tab.Screen>
 
+        {/* ❤️ Favorites */}
         <Tab.Screen 
           name="Favorites" 
           options={{
-            tabBarBadge: favorites.length > 0 ? favorites.length : null, // Show favorite count
+            tabBarBadge: favorites.length > 0 ? favorites.length : null, // Show badge for favorite count
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="heart-outline" size={size} color={color} />
             ),
@@ -56,15 +86,18 @@ const AppNavigator = () => {
           {(props) => <FavoritesScreen {...props} favorites={favorites} setFavorites={setFavorites} />}
         </Tab.Screen>
 
+        {/* 🛒 Basket */}
         <Tab.Screen 
           name="Basket" 
-          component={BasketScreen} 
           options={{
+            tabBarBadge: basket.length > 0 ? basket.length : null, // Show badge for basket count
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="cart-outline" size={size} color={color} />
             ),
-          }} 
-        />
+          }}
+        >
+          {(props) => <BasketScreen {...props} basket={basket} setBasket={setBasket} />}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -1,127 +1,105 @@
 import React from "react";
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, Alert } from "react-native";
 
-const shoeImages = {
-  "air-jordan-1": require("../../assets/air-jordan-1.jpg"),
-  "kobe-6-protro": require("../../assets/kobe-6-protro.jpg"),
-  "kyrie-7": require("../../assets/kyrie-7.jpg"),
-  "dame-8": require("../../assets/dame-8.jpg"),
-};
-
-const BasketScreen = ({ route, navigation }) => {
-  const { basket, setBasket } = route.params;
-
-  // Function to handle checkout
-  const handleCheckout = () => {
-    Alert.alert("Checkout Successful", "Thank you for your purchase!", [
-      { text: "OK", onPress: () => setBasket([]) } // ✅ Clear basket after checkout
-    ]);
-  };
-
-  // Function to clear basket
-  const handleClearBasket = () => {
-    Alert.alert("Basket Cleared", "All items have been removed.", [
-      { text: "OK", onPress: () => setBasket([]) }
-    ]);
+const BasketScreen = ({ navigation, basket, setBasket }) => {
+  const handleRemoveFromBasket = (shoe) => {
+    setBasket(basket.filter((item) => item.id !== shoe.id));
   };
 
   return (
     <View style={styles.container}>
+      <Text style={styles.header}>Your Shopping Cart</Text>
       {basket.length === 0 ? (
         <Text style={styles.emptyText}>Your basket is empty.</Text>
       ) : (
-        <>
-          <FlatList
-            data={basket}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.shoeItem}>
-                <Image source={shoeImages[item.image]} style={styles.shoeImage} />
-                <View style={styles.shoeInfo}>
-                  <Text style={styles.shoeName}>{item.name}</Text>
-                  <Text style={styles.shoePrice}>${item.price}</Text>
-                </View>
+        <FlatList
+          data={basket}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.shoeItem}>
+              {/* Shoe Image */}
+              <TouchableOpacity onPress={() => navigation.navigate("ShoeDetails", { shoe: item })}>
+                <Image source={{ uri: item.image }} style={styles.shoeImage} />
+              </TouchableOpacity>
+
+              {/* Shoe Details */}
+              <View style={styles.shoeInfo}>
+                <Text style={styles.shoeName}>{item.name}</Text>
+                <Text style={styles.shoeBrand}>{item.brand}</Text>
+                <Text style={styles.shoePrice}>${item.price}</Text>
               </View>
-            )}
-          />
-          {/* Checkout & Clear Basket Buttons */}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
-              <Text style={styles.buttonText}>Proceed to Checkout</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.clearButton} onPress={handleClearBasket}>
-              <Text style={styles.buttonText}>Clear Basket</Text>
-            </TouchableOpacity>
-          </View>
-        </>
+
+              {/* Remove Button */}
+              <TouchableOpacity
+                style={styles.removeButton}
+                onPress={() => handleRemoveFromBasket(item)}
+              >
+                <Text style={styles.removeButtonText}>Remove</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        />
+      )}
+
+      {/* Checkout Button */}
+      {basket.length > 0 && (
+        <TouchableOpacity
+          style={styles.checkoutButton}
+          onPress={() => Alert.alert("Success", "Your order has been placed!", [{ text: "OK" }])}
+        >
+          <Text style={styles.checkoutButtonText}>Checkout</Text>
+        </TouchableOpacity>
       )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: "#fff",
+  container: { flex: 1, padding: 10, backgroundColor: "#f5f5f5" },
+  header: { fontSize: 22, fontWeight: "bold", marginBottom: 10, textAlign: "center" },
+  emptyText: { fontSize: 16, textAlign: "center", marginTop: 20, color: "gray" },
+
+  shoeItem: { 
+    flexDirection: "row", 
+    backgroundColor: "#fff", 
+    marginBottom: 10, 
+    borderRadius: 10, 
+    padding: 10, 
+    alignItems: "center", 
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
   },
-  emptyText: {
-    fontSize: 18,
-    color: "gray",
-    textAlign: "center",
-    marginTop: 50,
+
+  shoeImage: { width: 80, height: 80, borderRadius: 10, marginRight: 10 },
+  
+  shoeInfo: { flex: 1 },
+  shoeName: { fontSize: 18, fontWeight: "bold" },
+  shoeBrand: { fontSize: 14, color: "gray" },
+  shoePrice: { fontSize: 16, color: "#007AFF" },
+
+  removeButton: { 
+    paddingVertical: 6, 
+    paddingHorizontal: 14, 
+    borderRadius: 8, 
+    backgroundColor: "#d9534f",
   },
-  shoeItem: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    marginBottom: 10,
-    borderRadius: 10,
-    padding: 10,
+
+  removeButtonText: { color: "#fff", fontSize: 14, fontWeight: "bold" },
+
+  checkoutButton: { 
+    backgroundColor: "#28a745", 
+    padding: 15, 
+    borderRadius: 8, 
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#ddd",
+    margin: 10,
   },
-  shoeImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 10,
-    marginRight: 15,
-  },
-  shoeInfo: {
-    flex: 1,
-  },
-  shoeName: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  shoePrice: {
-    fontSize: 16,
-    color: "#007AFF",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 20,
-  },
-  checkoutButton: {
-    flex: 1,
-    backgroundColor: "#007AFF",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
-    marginRight: 5,
-  },
-  clearButton: {
-    flex: 1,
-    backgroundColor: "#FF3B30",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
-    marginLeft: 5,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
+
+  checkoutButtonText: { 
+    color: "#fff", 
+    fontSize: 18, 
     fontWeight: "bold",
   },
 });
