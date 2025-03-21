@@ -14,7 +14,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const API_URL =
   Platform.OS === 'android'
     ? 'http://10.0.2.2:3000'
-    : 'http://192.168.0.122:3000';
+    : 'http://10.80.6.232:3000';
 
 const ShoeListScreen = ({navigation, favorites = [], setFavorites}) => {
   const [searchQuery, setSearchQuery] = useState('');
