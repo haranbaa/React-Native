@@ -26,7 +26,7 @@ for (const iface of Object.values(networkInterfaces)) {
 console.log(`Starting server on ${localIP}...`);
 
 // Load JSON data
-let shoes = require("./db.json");
+const shoes = require("./db.json");
 
 // Serve images statically
 app.use("/images", express.static(path.join(__dirname, "..", "assets")));
@@ -38,21 +38,12 @@ app.get("/", (req, res) => {
 
 app.get("/shoes", (req, res) => {
   console.log("Received request for /shoes");
-
-  // Dynamically append the full image URL
-  const updatedShoes = shoes.map((shoe) => ({
-    ...shoe,
-    image: `http://${localIP}:${port}/images/${shoe.image}`,
-  }));
-
-  res.json(updatedShoes);
+  res.json(shoes);
 });
 
 app.get("/shoes/:id", (req, res) => {
   const shoe = shoes.find((s) => s.id == req.params.id);
   if (shoe) {
-    // Append the full image URL
-    shoe.image = `http://${localIP}:${port}/images/${shoe.image}`;
     res.json(shoe);
   } else {
     res.status(404).send({ message: "Shoe not found" });
