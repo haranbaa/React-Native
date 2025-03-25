@@ -10,67 +10,57 @@ import ShoeListScreen from "../screens/ShoeListScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import BasketScreen from "../screens/BasketScreen";
 import ShoeDetailsScreen from "../screens/ShoeDetailsScreen";
-import WebViewScreen from "../screens/WebViewScreen"; // Import WebViewScreen
-import WebViewContentScreen from "../screens/WebViewContentScreen"; // Import WebViewContentScreen
+import WebViewScreen from "../screens/WebViewScreen";
+import WebViewContentScreen from "../screens/WebViewContentScreen";
 
 // Create Navigators
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-/** 
- * 🔹 Stack Navigator for Shoe List + Shoe Details 
- *    - Keeps ShoeDetails OUT of the bottom navigation.
- */
 const ShoeStackNavigator = ({ favorites, setFavorites, basket, setBasket }) => {
   return (
     <Stack.Navigator>
-      <Stack.Screen 
-        name="ShoeListMain" 
-        options={{ headerShown: false }}
-      >
+      <Stack.Screen name="ShoeListMain" options={{ headerShown: false }}>
         {(props) => <ShoeListScreen {...props} favorites={favorites} setFavorites={setFavorites} />}
       </Stack.Screen>
-
-      <Stack.Screen 
-        name="ShoeDetails" 
-        options={{ title: "Shoe Details" }}
-      >
+      <Stack.Screen name="ShoeDetails" options={{ title: "Shoe Details" }}>
         {(props) => <ShoeDetailsScreen {...props} basket={basket} setBasket={setBasket} />}
       </Stack.Screen>
     </Stack.Navigator>
   );
 };
 
-/** 
- * 🔹 Stack Navigator for Favorites + Shoe Details
- *    - Allows navigating from Favorites to Shoe Details.
- */
 const FavoritesStackNavigator = ({ favorites, setFavorites, basket, setBasket }) => {
   return (
     <Stack.Navigator>
-      <Stack.Screen 
-        name="FavoritesMain" 
-        options={{ headerShown: false }}
-      >
+      <Stack.Screen name="FavoritesMain" options={{ headerShown: false }}>
         {(props) => <FavoritesScreen {...props} favorites={favorites} setFavorites={setFavorites} basket={basket} setBasket={setBasket} />}
       </Stack.Screen>
-
-      <Stack.Screen 
-        name="ShoeDetails" 
-        options={{ title: "Shoe Details" }}
-      >
+      <Stack.Screen name="ShoeDetails" options={{ title: "Shoe Details" }}>
         {(props) => <ShoeDetailsScreen {...props} basket={basket} setBasket={setBasket} />}
       </Stack.Screen>
     </Stack.Navigator>
   );
 };
 
-/** 
- * 🔹 Main App Navigator (Bottom Tab Navigation) 
- */
+const WebViewStackNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="WebViewMain" options={{ headerShown: false }}>
+        {(props) => <WebViewScreen {...props} />}
+      </Stack.Screen>
+      <Stack.Screen 
+        name="WebViewContent" 
+        component={WebViewContentScreen}
+        options={{ title: "Web Content" }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const AppNavigator = () => {
-  const [favorites, setFavorites] = useState([]); // ⭐️ Favorites state
-  const [basket, setBasket] = useState([]); // 🛒 Basket state
+  const [favorites, setFavorites] = useState([]);
+  const [basket, setBasket] = useState([]);
 
   return (
     <NavigationContainer>
@@ -82,7 +72,6 @@ const AppNavigator = () => {
           tabBarInactiveTintColor: "#888",
         }}
       >
-        {/* 🏠 Home */}
         <Tab.Screen 
           name="Home" 
           component={HomeScreen} 
@@ -93,7 +82,6 @@ const AppNavigator = () => {
           }} 
         />
 
-        {/* 👟 Shoe List (Stack Navigator) */}
         <Tab.Screen 
           name="ShoeList" 
           options={{
@@ -105,24 +93,22 @@ const AppNavigator = () => {
           {(props) => <ShoeStackNavigator {...props} favorites={favorites} setFavorites={setFavorites} basket={basket} setBasket={setBasket} />}
         </Tab.Screen>
 
-        {/* ⭐️ Favorites (Updated to use Star Icon) */}
         <Tab.Screen 
           name="Favorites" 
           options={{
-            tabBarBadge: favorites.length > 0 ? favorites.length : null, // Show badge for favorite count
+            tabBarBadge: favorites.length > 0 ? favorites.length : null,
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="star" size={size} color={favorites.length > 0 ? "#FFD700" : color} /> // Gold when items exist
+              <Ionicons name="star" size={size} color={favorites.length > 0 ? "#FFD700" : color} />
             ),
           }}
         >
           {(props) => <FavoritesStackNavigator {...props} favorites={favorites} setFavorites={setFavorites} basket={basket} setBasket={setBasket} />}
         </Tab.Screen>
 
-        {/* 🛒 Basket */}
         <Tab.Screen 
           name="Basket" 
           options={{
-            tabBarBadge: basket.length > 0 ? basket.length : null, // Show basket count
+            tabBarBadge: basket.length > 0 ? basket.length : null,
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="cart-outline" size={size} color={color} />
             ),
@@ -131,27 +117,16 @@ const AppNavigator = () => {
           {(props) => <BasketScreen {...props} basket={basket} setBasket={setBasket} />}
         </Tab.Screen>
 
-        {/* 🌐 WebView */}
         <Tab.Screen 
           name="WebView" 
-          component={WebViewScreen} 
           options={{
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="link-outline" size={size} color={color} />
             ),
           }}
-        />
-
-        {/* 📄 WebView Content */}
-        <Tab.Screen 
-          name="WebViewContent" 
-          component={WebViewContentScreen} 
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="document-outline" size={size} color={color} />
-            ),
-          }}
-        />
+        >
+          {(props) => <WebViewStackNavigator {...props} />}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

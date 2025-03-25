@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { WebView } from "react-native-webview";
 
 const WebViewContentScreen = ({ route }) => {
-  const { url } = route.params; // Extract the URL passed as a parameter
+  const { url } = route.params;
 
   return (
     <View style={styles.container}>
@@ -13,7 +13,7 @@ const WebViewContentScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" }, // Full-screen container with white background
+  container: { flex: 1, backgroundColor: "#fff" },
 });
 
 export default WebViewContentScreen;
