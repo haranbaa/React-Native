@@ -10,6 +10,8 @@ import ShoeListScreen from "../screens/ShoeListScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import BasketScreen from "../screens/BasketScreen";
 import ShoeDetailsScreen from "../screens/ShoeDetailsScreen";
+import WebViewScreen from "../screens/WebViewScreen"; // Import WebViewScreen
+import WebViewContentScreen from "../screens/WebViewContentScreen"; // Import WebViewContentScreen
 
 // Create Navigators
 const Tab = createBottomTabNavigator();
@@ -128,6 +130,28 @@ const AppNavigator = () => {
         >
           {(props) => <BasketScreen {...props} basket={basket} setBasket={setBasket} />}
         </Tab.Screen>
+
+        {/* 🌐 WebView */}
+        <Tab.Screen 
+          name="WebView" 
+          component={WebViewScreen} 
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="link-outline" size={size} color={color} />
+            ),
+          }}
+        />
+
+        {/* 📄 WebView Content */}
+        <Tab.Screen 
+          name="WebViewContent" 
+          component={WebViewContentScreen} 
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="document-outline" size={size} color={color} />
+            ),
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
