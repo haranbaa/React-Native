@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
@@ -13,13 +13,44 @@ const links = [
 const WebViewScreen = () => {
   const navigation = useNavigation();
 
+  // Optional: Example useEffect to log component mount/unmount
+  useEffect(() => {
+    console.log("WebViewScreen mounted");
+    return () => {
+      console.log("WebViewScreen unmounted");
+    };
+  }, []);
+
   const handleLinkPress = (url: string) => {
+    console.log("Link pressed:", url);
+
+    // Check if it's an internal link
     if (url.startsWith("internal://")) {
       const page = url.split("://")[1];
+      console.log("Navigating internally to:", page);
       navigation.navigate(page);
     } else {
+      // Otherwise, open external URL in the WebViewContentScreen
+      console.log("Opening external link in WebView:", url);
       navigation.navigate("WebViewContent", { url });
     }
+  };
+
+  const renderLinkItem = ({ item }) => {
+    console.log("Rendering link item:", item.name);
+
+    return (
+      <TouchableOpacity
+        style={styles.linkItem}
+        onPress={() => {
+          console.log(`Item pressed: ${item.name}`);
+          handleLinkPress(item.url);
+        }}
+      >
+        <Ionicons name={item.icon} size={22} color="#007AFF" style={styles.icon} />
+        <Text style={styles.linkText}>{item.name}</Text>
+      </TouchableOpacity>
+    );
   };
 
   return (
@@ -28,15 +59,7 @@ const WebViewScreen = () => {
       <FlatList
         data={links}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.linkItem}
-            onPress={() => handleLinkPress(item.url)}
-          >
-            <Ionicons name={item.icon} size={22} color="#007AFF" style={styles.icon} />
-            <Text style={styles.linkText}>{item.name}</Text>
-          </TouchableOpacity>
-        )}
+        renderItem={renderLinkItem}
       />
     </View>
   );
