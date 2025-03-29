@@ -63,5 +63,17 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	
+	<!-- Add the URL Types section for deep linking -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>myfirstapp</string> <!-- Replace with your app's scheme -->
+			</array>
+		</dict>
+	</array>
+
 </dict>
 </plist>

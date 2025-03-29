@@ -1,8 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Image, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 
 const ShoeDetailsScreen = ({ route, basket = [], setBasket }) => {
-  const shoe = route.params?.shoe || {}; 
+  const { shoe: shoeFromParams, id } = route.params || {};
+  const [shoe, setShoe] = useState(shoeFromParams || {});
+
+  useEffect(() => {
+    // If the deep link provided only an id and we don't have a shoe object, fetch it.
+    if ((!shoe || Object.keys(shoe).length === 0) && id) {
+      fetch(`http://your-api-url/shoes/${id}`)
+        .then((response) => response.json())
+        .then((data) => setShoe(data))
+        .catch((error) => console.error("Error fetching shoe:", error));
+    }
+  }, [id]);
+
+  if (!shoe || Object.keys(shoe).length === 0) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   const handleAddToBasket = () => {
     if (!basket) {
@@ -12,9 +31,17 @@ const ShoeDetailsScreen = ({ route, basket = [], setBasket }) => {
 
     if (!basket.some((item) => item.id === shoe.id)) {
       setBasket([...basket, shoe]);
-      Alert.alert("Added To Basket Successful", `You have added ${shoe.name} to your basket!`, [{ text: "OK" }]);
+      Alert.alert(
+        "Added To Basket Successful",
+        `You have added ${shoe.name} to your basket!`,
+        [{ text: "OK" }]
+      );
     } else {
-      Alert.alert("Already in Basket", `${shoe.name} is already in your basket.`, [{ text: "OK" }]);
+      Alert.alert(
+        "Already in Basket",
+        `${shoe.name} is already in your basket.`,
+        [{ text: "OK" }]
+      );
     }
   };
 
